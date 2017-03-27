@@ -18,6 +18,7 @@ class Observer:
     _tle = None
     _observation_end = None
     _frequency = None
+    _transmitter = None
 
     _location = None
     _gnu_proc = None
@@ -111,6 +112,14 @@ class Observer:
         self._frequency = frequency
 
     @property
+    def transmitter(self):
+        return self._transmitter
+
+    @transmitter.setter
+    def transmitter(self, transmitter):
+        self._transmitter = transmitter
+
+    @property
     def observation_raw_file(self):
         return self._observation_raw_file
 
@@ -154,6 +163,7 @@ class Observer:
         self.tle = tle
         self.observation_end = observation_end
         self.frequency = frequency
+        self.transmitter = transmitter
 
         not_completed_prefix = 'receiving_satnogs'
         completed_prefix = 'satnogs'
@@ -187,8 +197,11 @@ class Observer:
             timestamp,
             'png')
 
-        return all([self.observation_id, self.tle,
-                    self.observation_end, self.frequency,
+        return all([self.observation_id,
+                    self.tle,
+                    self.observation_end,
+                    self.frequency,
+                    self.transmitter,
                     self.observation_raw_file,
                     self.observation_ogg_file,
                     self.observation_waterfall_file,
@@ -197,7 +210,7 @@ class Observer:
     def observe(self):
         """Starts threads for rotcrl and rigctl."""
         # start thread for rotctl
-        logger.info('Start gnuradio thread.')
+        logger.info('Start gnuradio thread. TRANSMITTER: ' + self.transmitter)
         self._gnu_proc = gnuradio_handler.exec_gnuradio(
             self.observation_raw_file,
             self.observation_waterfall_file,

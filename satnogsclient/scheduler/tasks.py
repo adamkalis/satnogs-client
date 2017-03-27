@@ -61,7 +61,8 @@ def spawn_observer(*args, **kwargs):
         'observation_id': obj['id'],
         'tle': tle,
         'observation_end': end,
-        'frequency': obj['frequency']
+        'frequency': obj['frequency'],
+        'transmitter': obj['transmitter']
     }
 
     logger.debug('Observer args: {0}'.format(setup_kwargs))
