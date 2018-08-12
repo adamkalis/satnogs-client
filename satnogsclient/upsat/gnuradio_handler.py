@@ -34,6 +34,10 @@ def exec_gnuradio(observation_file, waterfall_file, origin, freq, baud,
         # If this is a CW observation pass the WPM parameter
         if scriptname == client_settings.GNURADIO_CW_SCRIPT_FILENAME and baud > 0:
             arg_string += '--wpm=' + str(int(baud)) + ' '
+        # If this is a FSK or MSK observation pass the baudrate parameter
+        if scriptname == client_settings.GNURADIO_FSK_SCRIPT_FILENAME
+           or scriptname == client_settings.GNURADIO_MSK_SCRIPT_FILENAME:
+            arg_string += '--baudrate=' + str(int(baud)) + ' '
     else:
         arg_string = user_args + ' '
     if client_settings.SATNOGS_RX_DEVICE and "--rx-sdr-device" not in arg_string:
